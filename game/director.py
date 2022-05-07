@@ -21,10 +21,10 @@ class Director:
             self (Director): an instance of Director.
         """
         self.card = Card()
-        self.first_card = self.card.draw_card
+        self.first_card = 0
         self.next_card = 0
         self.is_playing = True
-        self.is_lower = True
+        self.guess = ""
         self.score = 300
         self.total_score = 0
         
@@ -39,7 +39,7 @@ class Director:
         Args:
             self (Director): an instance of Director.
         """
-        print("Welcome. Good luck")
+        
         while self.is_playing:
             self.get_inputs()
             self.do_updates()
@@ -51,10 +51,12 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-         
+
+        self.card.draw_card()
+        self.first_card = self.card.value
         print(f"Your first card is: {self.first_card}")
-        guess = input("Guess, the next card is Higher or Lower [h/l]? ")
-        self.is_lower = (guess == "l")
+        self.guess = input("Guess, the next card is Higher or Lower [h/l]? ")
+        
     
        
     def do_updates(self):
@@ -67,20 +69,23 @@ class Director:
 
         if not self.is_playing:
             return 
-        self.next_card = self.card.draw_card 
+
+        self.card.draw_card()
+        self.next_card = self.card.value
 
     
-        if(self.first_card < self.next_card):
-            self.is_lower = True
-            self.score = self.score - 75
-        elif (self.first_card > self.next_card):
-            self.is_lower = False
+        if (self.next_card < self.first_card and self.guess.lower() == "l"):
             self.score = self.score + 100
+        elif (self.next_card > self.first_card and self.guess.lower() == "h"):
+            self.score = self.score + 100
+        elif (self.next_card < self.first_card and self.guess.lower() == "h"):
+            self.score = self.score - 75
+        elif (self.next_card > self.first_card and self.guess.lower() == "l"):
+            self.score = self.score - 75 
         else: 
             print("Wow, you got the same card again! Super lucky!")
             print("Nothing happens and we will keep playing!")        
         
-        self.total_score += self.score
         self.first_card = self.next_card
         
 
@@ -91,12 +96,16 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
+        
+        print(f"The next card was: {self.next_card}")
+        print(f"Your score is: {self.score} \n")
+        
+        play_again = input("Do you want to play again (y/n)? ")
+        self.is_playing = (play_again.lower() == "y" or self.score <= 0)
+
         if not self.is_playing:
             print("Game Over. \nCome to play soon")
             return
-        
-        
 
-        print(f"The new card is: {self.next_card}")
-        print(f"Your score is: {self.total_score}\n")
-        self.is_playing == (self.score > 0)
+        
+        
