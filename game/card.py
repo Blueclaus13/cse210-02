@@ -11,5 +11,5 @@ class Card:
     def draw_card(self):
      
         self.value = random.randint(1, 13)
-        print(self.value)
+        return self.value
 
