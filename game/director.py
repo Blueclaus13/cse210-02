@@ -20,12 +20,14 @@ class Director:
         Args:
             self (Director): an instance of Director.
         """
-        self.first_card = 0
+        self.card = Card()
+        self.first_card = self.card.draw_card
         self.next_card = 0
         self.is_playing = True
         self.is_lower = True
         self.score = 300
         self.total_score = 0
+        
 
         
         print("Welcome to Hilo Game")
@@ -49,10 +51,11 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-        self.first_card = random.randint(1,13)
+         
         print(f"Your first card is: {self.first_card}")
         guess = input("Guess, the next card is Higher or Lower [h/l]? ")
         self.is_lower = (guess == "l")
+    
        
     def do_updates(self):
         """Updates the player's score.
@@ -60,10 +63,26 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
+        
+
         if not self.is_playing:
             return 
-        card = Card()
-        self.next_card = card.draw_card
+        self.next_card = self.card.draw_card 
+
+    
+        if(self.first_card < self.next_card):
+            self.is_lower = True
+            self.score = self.score - 75
+        elif (self.first_card > self.next_card):
+            self.is_lower = False
+            self.score = self.score + 100
+        else: 
+            print("Wow, you got the same card again! Super lucky!")
+            print("Nothing happens and we will keep playing!")        
+        
+        self.total_score += self.score
+        self.first_card = self.next_card
+        
 
         
     def do_outputs(self):
@@ -76,11 +95,8 @@ class Director:
             print("Game Over. \nCome to play soon")
             return
         
-        values = ""
-        for i in range(len(self.dice)):
-            die = self.dice[i]
-            values += f"{die.value} "
+        
 
-        print(f"You rolled: {values}")
+        print(f"The new card is: {self.next_card}")
         print(f"Your score is: {self.total_score}\n")
         self.is_playing == (self.score > 0)
