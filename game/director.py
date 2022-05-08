@@ -21,17 +21,17 @@ class Director:
             self (Director): an instance of Director.
         """
         self.card = Card()
-        self.first_card = 0
-        self.next_card = 0
         self.is_playing = True
         self.guess = ""
         self.score = 300
-        self.total_score = 0
         
 
-        
-        print("Welcome to Hilo Game")
+        print("     Welcome to Hilo Game\n")
         print("You start the game with 300 points")
+
+#We assigned the first value
+        self.card.get_firstCard()
+        self.first_card = self.card.f_card
 
     def start_game(self):
         """Starts the game by running the main game loop.
@@ -52,9 +52,8 @@ class Director:
             self (Director): An instance of Director.
         """
 
-        self.card.draw_card()
-        self.first_card = self.card.value
-        print(f"Your first card is: {self.first_card}")
+        print("-----------------------------------------")
+        print(f"\nYour card is: {self.card.f_card}")
         self.guess = input("Guess, the next card is Higher or Lower [h/l]? ")
         
     
@@ -65,30 +64,27 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-        
 
-        if not self.is_playing:
-            return 
+#We drawcard
+        self.card.get_nextCard()
+        self.next_card = self.card.n_card
 
-        self.card.draw_card()
-        self.next_card = self.card.value
+#Call Card instance to compare the value of cards
+        self.card.compare_cards()
 
-    
-        if (self.next_card < self.first_card and self.guess.lower() == "l"):
+#Compare the User's answer with the value comparation
+
+    #User's guess is correct
+        if (self.guess.lower() == self.card.comparation_result):
             self.score = self.score + 100
-        elif (self.next_card > self.first_card and self.guess.lower() == "h"):
-            self.score = self.score + 100
-        elif (self.next_card < self.first_card and self.guess.lower() == "h"):
-            self.score = self.score - 75
-        elif (self.next_card > self.first_card and self.guess.lower() == "l"):
-            self.score = self.score - 75 
+    #The value of the cards was the same. Score doesn't change
+        elif (self.card.comparation_result == "s"):
+            print("\nWow, you got the same card again! Super lucky!")
+            print("Nothing happens and we will keep playing!") 
+    #User's guess was incorrect
         else: 
-            print("Wow, you got the same card again! Super lucky!")
-            print("Nothing happens and we will keep playing!")        
+            self.score = self.score - 75 
         
-        self.first_card = self.next_card
-        
-
         
     def do_outputs(self):
         """Displays the dice and the score. Also asks the player if they want to roll again. 
@@ -96,15 +92,18 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-        
+#Result of round
         print(f"The next card was: {self.next_card}")
         print(f"Your score is: {self.score} \n")
+        print("-----------------------------------------")
         
+#The user decides if to keep playing. 
         play_again = input("Do you want to play again (y/n)? ")
         self.is_playing = (play_again.lower() == "y" or self.score <= 0)
 
+#Good bye message
         if not self.is_playing:
-            print("Game Over. \nCome to play soon")
+            print("\n     Game Over. \nCome to play soon")
             return
 
         
