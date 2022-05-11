@@ -1,5 +1,5 @@
 # HiLow
-Do you want to chase a small thrilled but too afraid to gamble?  
+Do you want to chase a small thrill but too afraid to gamble?  
 Boy do we have the perfect game for you. The game is simple!
 A card will be display from 1-13, then the player gets to guess
 if the next card will be higher(h), or lower(l) then the card displayed, 
