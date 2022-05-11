@@ -7,11 +7,11 @@ class Director:
     The responsibility of a Director is to control the sequence of play.
 
     Attributes:
-        first_card (int): save the value of the first card.
-        next_card (int): save the value of the next card.
         is_playing (boolean): Whether or not the game is being played.
         score (int): The score for one round of play.
-        total_score (int): The score for the entire game.
+        guess (string): The User's guess
+        card (Object): The object is to control all related with cards
+        
     """
 
     def __init__(self):
@@ -69,21 +69,10 @@ class Director:
         self.card.get_nextCard()
         self.next_card = self.card.n_card
 
-#Call Card instance to compare the value of cards
-        self.card.compare_cards()
-
-#Compare the User's answer with the value comparation
-
-    #User's guess is correct
-        if (self.guess.lower() == self.card.comparation_result):
-            self.score = self.score + 100
-    #The value of the cards was the same. Score doesn't change
-        elif (self.card.comparation_result == "s"):
-            print("\nWow, you got the same card again! Super lucky!")
-            print("Nothing happens and we will keep playing!") 
-    #User's guess was incorrect
-        else: 
-            self.score = self.score - 75 
+#Call Card instance to compare the value of cards and the points 
+        round_points = self.card.compare_cards(self.guess)
+        self.score += round_points
+ 
         
         
     def do_outputs(self):
