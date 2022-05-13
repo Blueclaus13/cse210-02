@@ -29,7 +29,7 @@ class Director:
         print("     Welcome to Hilo Game\n")
         print("You start the game with 300 points")
 
-#We assigned the first value
+        #We assigned the first value
         self.card.get_firstCard()
         self.first_card = self.card.f_card
 
@@ -65,11 +65,11 @@ class Director:
             self (Director): An instance of Director.
         """
 
-#We drawcard
+        #We drawcard
         self.card.get_nextCard()
         self.next_card = self.card.n_card
 
-#Call Card instance to compare the value of cards and the points 
+        #Call Card instance to compare the value of cards and the points 
         round_points = self.card.compare_cards(self.guess)
         self.score += round_points
  
@@ -81,16 +81,16 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-#Result of round
+        #Result of round
         print(f"The next card was: {self.next_card}")
         print(f"Your score is: {self.score} \n")
         print("-----------------------------------------")
         
-#The user decides if to keep playing. 
+        #The user decides if to keep playing. 
         play_again = input("Do you want to play again (y/n)? ")
         self.is_playing = (play_again.lower() == "y" or self.score <= 0)
 
-#Good bye message
+        #Good bye message
         if not self.is_playing:
             print("\n     Game Over. \nCome to play soon")
             return
